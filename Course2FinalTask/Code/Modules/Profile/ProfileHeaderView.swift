@@ -9,9 +9,9 @@
 import UIKit
 
 protocol ProfileHeaderViewDelegate {
-    func didFollowersTap(userId: String /*DataProvider.User.Identifier*/)
-    func didFollowingTap(userId: String /*DataProvider.User.Identifier*/)
-    func didFollowBtnTap(userId: String /*DataProvider.User.Identifier*/)
+    func didFollowersTap(userId: String)
+    func didFollowingTap(userId: String)
+    func didFollowBtnTap(userId: String)
 }
 
 class ProfileHeaderView: UICollectionReusableView {

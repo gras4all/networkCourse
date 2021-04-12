@@ -52,6 +52,31 @@ struct Post: Decodable {
         self.authorAvatar = try container.decode(String.self, forKey: .authorAvatar)
     }
     
+    init(post: CPost) {
+        self.id = post.id ?? ""
+        self.description = post.descr ?? ""
+        self.image = post.image ?? ""
+        self.createdTime = post.createdTime
+        self.currentUserLikesThisPost = post.currentUserLikesThisPost
+        self.likedByCount = Int(post.likedByCount)
+        self.author = post.author ?? ""
+        self.authorUsername = post.authorUsername ?? ""
+        self.authorAvatar = post.authorAvatar ?? ""
+    }
+    
+    func prepareForSave() {
+        let post = CoreDataManager.shared.createObject(from: CPost.self)
+        post.id = id
+        post.descr = description
+        post.image = image
+        post.createdTime = createdTime
+        post.currentUserLikesThisPost = currentUserLikesThisPost
+        post.likedByCount = Int16(likedByCount)
+        post.authorUsername = authorUsername
+        post.authorAvatar = authorAvatar
+        post.author = author
+    }
+    
 }
 
 

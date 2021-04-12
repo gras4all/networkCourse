@@ -74,4 +74,10 @@ final class NavigationManager {
         vc.present(alert, animated: true, completion: nil)
     }
     
+    func presentOfflineMessage(vc: UIViewController) {
+        let alert = UIAlertController(title: "Offline mode", message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        vc.present(alert, animated: true, completion: nil)
+    }
+    
 }
