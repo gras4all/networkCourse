@@ -64,6 +64,10 @@ extension SelectPhotoViewController: UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard !NetworkManager.shared.isOffline else {
+            NavigationManager.shared.presentOfflineMessage(vc: self)
+            return
+        }
         let storyboard = UIStoryboard(name: "Filters", bundle: nil)
         let filtersController = storyboard.instantiateViewController(withIdentifier: String(describing: FiltersViewController.self)) as! FiltersViewController
         filtersController.selectedImage = (title: nil, image: images[indexPath.row], thumbnailImage: thumbnailImages[indexPath.row])

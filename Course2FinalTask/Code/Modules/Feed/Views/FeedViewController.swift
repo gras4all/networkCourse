@@ -48,13 +48,25 @@ class FeedViewController: BaseViewController {
     private func _setupInitialValues() {
         self.hideActivityIndicator()
         self.showActivityIndicator()
-        sendFeedRequest()
+        getFeeds()
+    }
+    
+    private func getFeeds() {
+        if !NetworkManager.shared.isOffline {
+            sendFeedRequest()
+        } else {
+            self.hideActivityIndicator()
+            self.posts = CoreDataManager.shared.fetchData(for: CPost.self).map {
+                Post(post: $0)
+            }
+        }
     }
     
     private func sendFeedRequest() {
         NetworkManager.shared.feedRequest(success: { [weak self] posts in
             guard let _self = self else { return }
             _self.posts = posts
+            CoreDataManager.shared.savePostsToStorage(posts: posts)
         },
         errorHandler: { [weak self] error in
             guard let _self = self else { return }
@@ -86,8 +98,11 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 extension FeedViewController: FeedCellDelegate {
     
     func didLikeTap(postId: String) {
+        guard !NetworkManager.shared.isOffline else {
+            NavigationManager.shared.presentOfflineMessage(vc: self)
+            return
+        }
         guard let currentUserId = AppSettings.shared.currentUser?.id else { return }
-        
         NetworkManager.shared.getUsersLikedThisPost(postId: postId, success: { [weak self] usersLiked in
             guard let _self = self else { return }
             let userIds = usersLiked.map { $0.id }
@@ -104,10 +119,18 @@ extension FeedViewController: FeedCellDelegate {
     }
     
     func didPostImageTap(postId: String) {
+        guard !NetworkManager.shared.isOffline else {
+            NavigationManager.shared.presentOfflineMessage(vc: self)
+            return
+        }
         self.likePost(postId: postId)
     }
     
     func didShowProfile(authorId: String) {
+        guard !NetworkManager.shared.isOffline else {
+            NavigationManager.shared.presentOfflineMessage(vc: self)
+            return
+        }
         self.showActivityIndicator()
         NetworkManager.shared.getUser(userId: authorId, success: { [weak self] author in
             guard let self = self else { return }
@@ -123,6 +146,10 @@ extension FeedViewController: FeedCellDelegate {
     }
     
     func didLikesTap(postId: String) {
+        guard !NetworkManager.shared.isOffline else {
+            NavigationManager.shared.presentOfflineMessage(vc: self)
+            return
+        }
         self.showActivityIndicator()
         NetworkManager.shared.getUsersLikedThisPost(postId: postId, success: { [weak self] users in
             guard let _self = self else { return }
@@ -147,7 +174,7 @@ extension FeedViewController: FeedCellDelegate {
 extension FeedViewController {
     
     func updateFeed() {
-        sendFeedRequest()
+        getFeeds()
     }
     
     private func unlikePost(postId: String) {

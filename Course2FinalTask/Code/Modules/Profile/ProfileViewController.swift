@@ -36,8 +36,21 @@ class ProfileViewController: BaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        loadUserData()
+        getUserData()
         setupNavigationBar()
+    }
+    
+    private func getUserData() {
+        if !NetworkManager.shared.isOffline {
+            loadUserData()
+        } else {
+            if let userData = CoreDataManager.shared.fetchData(for: CUser.self).first {
+                self.user = User(user: userData)
+                self.posts = CoreDataManager.shared.fetchUserPosts(userId: self.user?.id ?? "").map {
+                    Post(post: $0)
+                }
+            }
+        }
     }
     
     private func loadUserData() {
@@ -55,6 +68,10 @@ class ProfileViewController: BaseViewController {
                 initialDataGroup.leave()
                 guard let self = self else { return }
                 self.posts = posts
+                if let posts = posts,
+                   user.id == AppSettings.shared.currentUser?.id {
+                    CoreDataManager.shared.savePostsToStorage(posts: posts)
+                }
             })
             initialDataGroup.enter()
             self.fetchFollowedUsers(userId: user.id, completion: { [weak self] users in
@@ -89,8 +106,25 @@ class ProfileViewController: BaseViewController {
     
     // MARK: UI Actions
     @objc func logOut() {
-        NetworkManager.shared.logout()
-        NavigationManager.shared.setupLoginViewControllerAsRoot()
+        if !NetworkManager.shared.isOffline {
+            NetworkManager.shared.logoutRequest(success: { [weak self] in
+                DispatchQueue.main.async {
+                    NetworkManager.shared.logout()
+                    NavigationManager.shared.setupLoginViewControllerAsRoot()
+                }
+            },
+            errorHandler: { [weak self] error in
+                guard let _self = self else { return }
+                DispatchQueue.main.async {
+                    NavigationManager.shared.presentErrorAlert(statusCode: error, vc: _self)
+                }
+            })
+        } else {
+            DispatchQueue.main.async {
+                NetworkManager.shared.logout()
+                NavigationManager.shared.setupLoginViewControllerAsRoot()
+            }
+        }
     }
     
 }
@@ -156,7 +190,11 @@ extension ProfileViewController: UICollectionViewDataSource,
 
 extension ProfileViewController: ProfileHeaderViewDelegate {
     
-    func didFollowersTap(userId: String/*User.Identifier*/) {
+    func didFollowersTap(userId: String) {
+        guard !NetworkManager.shared.isOffline else {
+            NavigationManager.shared.presentOfflineMessage(vc: self)
+            return
+        }
         let usersController = NavigationManager.shared.getUsersViewController()
         guard user?.followsCount != 0 else { return }
         self.showActivityIndicator()
@@ -174,7 +212,11 @@ extension ProfileViewController: ProfileHeaderViewDelegate {
         })
     }
     
-    func didFollowingTap(userId: String/*User.Identifier*/) {
+    func didFollowingTap(userId: String) {
+        guard !NetworkManager.shared.isOffline else {
+            NavigationManager.shared.presentOfflineMessage(vc: self)
+            return
+        }
         let usersController = NavigationManager.shared.getUsersViewController()
         guard user?.followedByCount != 0 else { return }
         self.showActivityIndicator()
@@ -193,18 +235,22 @@ extension ProfileViewController: ProfileHeaderViewDelegate {
     }
     
     func didFollowBtnTap(userId: String) {
+        guard !NetworkManager.shared.isOffline else {
+            NavigationManager.shared.presentOfflineMessage(vc: self)
+            return
+        }
         if self.isFollowed {
             self.unfollow(userId: userId, completion: { [weak self] user in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
-                    self.loadUserData()
+                    self.getUserData()
                 }
             })
         } else {
             self.follow(userId: userId, completion: { [weak self] user in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
-                    self.loadUserData()
+                    self.getUserData()
                 }
             })
         }

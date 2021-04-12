@@ -10,12 +10,21 @@ import Foundation
 
 final class NetworkManager {
     
+    static let kToken = "token"
+    
     static var shared: NetworkManager = NetworkManager()
     
     let scheme = "http"
     let host = "localhost"
     let hostPath = "http://localhost:8080"
-    var token = ""
+    var token = "" {
+        didSet {
+            if let data = token.data(using: .utf8) {
+                let status = KeyChain.save(key: KeyChain.kToken, data: data)
+                print("KeyChain save status: ", status)
+            }
+        }
+    }
     var defaultHeaders: [String: String] {
         var headers = [
             "Content-Type" : "application/json",
@@ -23,6 +32,7 @@ final class NetworkManager {
         headers["token"] = token
         return headers
     }
+    var isOffline: Bool = false
     
     let sharedSession = URLSession.shared
     
@@ -61,6 +71,22 @@ final class NetworkManager {
                 _self.token = loginResponse.token
                 success()
             }
+        })
+    }
+    
+    func logoutRequest(success: @escaping () -> Void,
+                       errorHandler: @escaping (Int) -> Void) {
+        let requestPath = "/signout"
+        guard let url = getUrl(path: requestPath) else {
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = defaultHeaders
+        performRequest(request: request, completion: { [weak self] (data, response, error) in
+            guard let _self = self else { return }
+            guard _self.checkResponse(path: requestPath, error: error, response: response, data: data, errorHandler: errorHandler) else { return }
+            success()
         })
     }
     
@@ -344,9 +370,35 @@ final class NetworkManager {
         })
     }
     
+    func checkToken(token: String, success: @escaping () -> Void, errorHandler: @escaping (Int) -> Void) {
+        let requestPath = "/checkToken"
+        guard let url = getUrl(path: requestPath) else {
+            return
+        }
+        var request = URLRequest(url: url)
+        var headers = defaultHeaders
+        headers["token"] = token
+        request.allHTTPHeaderFields = headers
+        performRequest(request: request, completion: {  [weak self] (data, response, error) in
+            guard let _self = self else { return }
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    _self.token = token
+                    success()
+                }
+            } else {
+                errorHandler(-1)
+            }
+            guard _self.checkResponse(path: requestPath, error: error, response: response, data: data, errorHandler: errorHandler) else {
+                return
+            }
+        })
+    }
+    
     func logout() {
         token = ""
         AppSettings.shared.currentUser = nil
+        KeyChain.deleteItems()
     }
     
     private func getUrl(path: String) -> URL? {
@@ -367,6 +419,8 @@ final class NetworkManager {
             print(error.localizedDescription)
             if let httpResponse = response as? HTTPURLResponse {
                 errorHandler?(httpResponse.statusCode)
+            } else {
+                errorHandler?(-1)
             }
             return false
         }

@@ -14,10 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        /*DataProviders.shared.usersDataProvider.currentUser(queue: DispatchQueue.global(qos: .utility), handler: { user in
-            AppSettings.shared.currentUser = user
-        })*/
-        
         return true
     }
     
