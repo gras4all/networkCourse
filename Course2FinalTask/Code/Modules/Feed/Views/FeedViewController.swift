@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedViewController: BaseViewController {
+final class FeedViewController: BaseViewController {
     
     @IBOutlet weak var feedTable: UITableView!
     
@@ -25,27 +25,27 @@ class FeedViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _setupViews()
-        _setupInitialValues()
+        setupViews()
+        setupInitialValues()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        _setupNavigationBar()
+        setupNavigationBar()
     }
     
     // MARK: setup
     
-    private func _setupViews() {
+    private func setupViews() {
         self.feedTable.delegate = self
         self.feedTable.dataSource = self
     }
     
-    private func _setupNavigationBar() {
+    private func setupNavigationBar() {
         self.navigationItem.title = "Feed"
     }
     
-    private func _setupInitialValues() {
+    private func setupInitialValues() {
         self.hideActivityIndicator()
         self.showActivityIndicator()
         getFeeds()
@@ -171,13 +171,13 @@ extension FeedViewController: FeedCellDelegate {
 
 
 // MARK: API methods
-extension FeedViewController {
+private extension FeedViewController {
     
     func updateFeed() {
         getFeeds()
     }
     
-    private func unlikePost(postId: String) {
+    func unlikePost(postId: String) {
         NetworkManager.shared.unlikeRequest(postId: postId, success: { [weak self] users in
             guard let _self = self else { return }
             DispatchQueue.main.async {
@@ -195,7 +195,7 @@ extension FeedViewController {
         })
     }
     
-    private func likePost(postId: String) {
+    func likePost(postId: String) {
         NetworkManager.shared.likeRequest(postId: postId, success: { [weak self] users in
             guard let _self = self else { return }
             DispatchQueue.main.async {

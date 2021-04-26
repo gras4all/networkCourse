@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterCell: UICollectionViewCell {
+final class FilterCell: UICollectionViewCell {
 
     @IBOutlet weak var filterImage: UIImageView!
     

@@ -14,7 +14,7 @@ protocol ProfileHeaderViewDelegate {
     func didFollowBtnTap(userId: String)
 }
 
-class ProfileHeaderView: UICollectionReusableView {
+final class ProfileHeaderView: UICollectionReusableView {
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -22,7 +22,7 @@ class ProfileHeaderView: UICollectionReusableView {
     @IBOutlet weak var followingLabel: UILabel!
     @IBOutlet weak var followButton: UIButton!
     
-    var user: User?
+    private var user: User?
     var delegate: ProfileHeaderViewDelegate?
     
     // MARK: life cycle

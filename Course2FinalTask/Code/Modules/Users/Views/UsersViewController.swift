@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UsersViewController: UIViewController {
+final class UsersViewController: UIViewController {
 
     @IBOutlet var usersTable: UITableView!
     
@@ -18,12 +18,12 @@ class UsersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _setupViews()
+        setupViews()
     }
     
     // MARK: setup
     
-    private func _setupViews() {
+    private func setupViews() {
         self.usersTable.delegate = self
         self.usersTable.dataSource = self
     }

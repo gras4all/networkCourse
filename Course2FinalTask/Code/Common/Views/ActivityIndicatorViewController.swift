@@ -9,6 +9,4 @@
 import Foundation
 import UIKit
 
-class ActivityIndicatorViewController: UIViewController {
-
-}
+final class ActivityIndicatorViewController: UIViewController {}

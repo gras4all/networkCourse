@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class ProfileViewController: BaseViewController {
+final class ProfileViewController: BaseViewController {
     
     @IBOutlet weak var profileCollectionView: UICollectionView!
     
@@ -107,7 +107,7 @@ class ProfileViewController: BaseViewController {
     // MARK: UI Actions
     @objc func logOut() {
         if !NetworkManager.shared.isOffline {
-            NetworkManager.shared.logoutRequest(success: { [weak self] in
+            NetworkManager.shared.logoutRequest(success: {
                 DispatchQueue.main.async {
                     NetworkManager.shared.logout()
                     NavigationManager.shared.setupLoginViewControllerAsRoot()

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class AddDescriptionViewController: BaseViewController {
+final class AddDescriptionViewController: BaseViewController {
     
     @IBOutlet weak var filteredImageView: UIImageView!
     @IBOutlet weak var descriptionField: UITextField!

@@ -18,7 +18,7 @@ protocol FeedCellDelegate: AnyObject {
     
 }
 
-class FeedCell: UITableViewCell {
+final class FeedCell: UITableViewCell {
     
     @IBOutlet weak var avatarImg: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!

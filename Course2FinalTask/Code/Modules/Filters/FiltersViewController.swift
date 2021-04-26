@@ -9,33 +9,30 @@
 import Foundation
 import UIKit
 
-class FiltersViewController: BaseViewController {
+final class FiltersViewController: BaseViewController {
     
     typealias FilterImage = (title: String?, image: UIImage?, thumbnailImage: UIImage?)
     
     @IBOutlet weak var filtersCollectionView: UICollectionView!
-    
     @IBOutlet weak var selectedImageView: UIImageView!
     
-    let cellReuseID = String(describing: FilterCell.self)
-    let cellNib = UINib(nibName: String(describing: FilterCell.self), bundle: nil)
+    private let cellReuseID = String(describing: FilterCell.self)
+    private let cellNib = UINib(nibName: String(describing: FilterCell.self), bundle: nil)
     
     var selectedImage: FilterImage?
     
-    var resultImage: UIImage?
-    
-    var filters: [FilterImage] = []
-    
+    private var resultImage: UIImage?
+    private var filters: [FilterImage] = []
     private var filtersImages: [UIImage?] = []
     
-    let queue: OperationQueue = {
+    private let queue: OperationQueue = {
         var queue = OperationQueue()
         queue.qualityOfService = .utility
         queue.maxConcurrentOperationCount = 1
         return queue
     }()
     
-    let filter = Filters()
+    private let filter = Filters()
     
     // MARK: life cycle
        

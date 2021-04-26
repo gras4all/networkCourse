@@ -8,14 +8,12 @@
 
 import Foundation
 
-class AppSettings {
+final class AppSettings {
     
     static var shared: AppSettings = {
         return AppSettings()
     }()
     
     var currentUser: User?
-    
-    private init() {  }
     
 }

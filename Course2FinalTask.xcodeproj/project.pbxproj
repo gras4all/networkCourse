@@ -117,13 +117,6 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
-		2D1B893F25797FEE00E0B3A5 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		2D1B894025797FF700E0B3A5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -135,7 +128,7 @@
 		2D2D847C25815D6F00CE2409 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2D00318D249A1F8000347F6D /* UsersCell.swift */,
+				2D4F6BD52637436E00763BF8 /* Cells */,
 				2D00318A2499042F00347F6D /* UsersViewController.swift */,
 			);
 			path = Views;
@@ -186,12 +179,27 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		2D4F6BD42637435B00763BF8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2D00318F249A227C00347F6D /* FeedCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		2D4F6BD52637436E00763BF8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2D00318D249A1F8000347F6D /* UsersCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		2D616A6A2508222D002D7000 /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				2D6E555125FF657400501E95 /* Managers */,
 				2D466EA8257811890012E1B6 /* Views */,
-				86F563BA251C75D400411491 /* NavigationManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -238,7 +246,7 @@
 		2D69003A257BF5D6005E9E45 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2D00318F249A227C00347F6D /* FeedCell.swift */,
+				2D4F6BD42637435B00763BF8 /* Cells */,
 				2D0031882499037100347F6D /* FeedViewController.swift */,
 			);
 			path = Views;
@@ -257,6 +265,7 @@
 			children = (
 				2D6E554F25FF5FAB00501E95 /* CoreDataManager.swift */,
 				2D466EA62578111A0012E1B6 /* NetworkManager.swift */,
+				86F563BA251C75D400411491 /* NavigationManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -313,7 +322,6 @@
 			isa = PBXGroup;
 			children = (
 				2D1B894025797FF700E0B3A5 /* Views */,
-				2D1B893F25797FEE00E0B3A5 /* Models */,
 				2D1B893E25797FC900E0B3A5 /* Responses */,
 			);
 			path = Login;

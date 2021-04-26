@@ -9,19 +9,16 @@
 import Foundation
 import UIKit
 
-class SelectPhotoViewController: BaseViewController {
+final class SelectPhotoViewController: BaseViewController {
     
     @IBOutlet weak var galleryCollection: UICollectionView!
     
     let cellReuseID = String(describing: PhotoCell.self)
     let cellNib = UINib(nibName: String(describing: PhotoCell.self), bundle: nil)
-    
     let numberOfItemsPerRow = 3
-    
     var images: [UIImage] {
         return getImages()
     }
-    
     var thumbnailImages: [UIImage] {
         return getThumbnailsImages()
     }
@@ -30,18 +27,18 @@ class SelectPhotoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        _setupViews()
-        _setupNavigationBar()
+        setupViews()
+        setupNavigationBar()
     }
     
-    private func _setupViews() {
+    private func setupViews() {
         galleryCollection.register(self.cellNib,
         forCellWithReuseIdentifier: self.cellReuseID)
         galleryCollection.delegate = self
         galleryCollection.dataSource = self
     }
     
-    private func _setupNavigationBar() {
+    private func setupNavigationBar() {
         self.navigationItem.title = "New post"
     }
 

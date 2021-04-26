@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Base64Converter {
+final class Base64Converter {
     
     static func encodeStringToBase64(string: String) -> String? {
         let utf8str = string.data(using: .utf8)

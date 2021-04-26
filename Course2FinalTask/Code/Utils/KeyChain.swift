@@ -8,7 +8,7 @@
 
 import Foundation
 
-class KeyChain {
+final class KeyChain {
     
     static let kToken = "token"
 

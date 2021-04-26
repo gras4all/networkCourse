@@ -19,7 +19,7 @@ final class CoreDataManager {
     
     //MARK: CoreData Stack initialisation
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: modelName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -112,7 +112,7 @@ final class CoreDataManager {
             try context.execute(deletePostsRequest)
             try context.save()
         } catch {
-            print ("There was an error")
+            print("There was an error")
         }
     }
     
@@ -123,7 +123,7 @@ final class CoreDataManager {
             try context.execute(deleteUsersRequest)
             try context.save()
         } catch {
-            print ("There was an error")
+            print("There was an error")
         }
     }
         

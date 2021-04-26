@@ -11,7 +11,7 @@ import UIKit
 
 class BaseViewController: UIViewController {
     
-    var activityIndicator: ActivityIndicatorViewController = {
+    private var activityIndicator: ActivityIndicatorViewController = {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let ivc = storyboard.instantiateViewController(withIdentifier: String(describing: ActivityIndicatorViewController.self)) as! ActivityIndicatorViewController
         ivc.modalPresentationStyle = .overFullScreen
