@@ -100,7 +100,7 @@ final class ProfileViewController: BaseViewController {
         self.navigationItem.title = user?.username
         if let user = user,
            user.id == AppSettings.shared.currentUser?.id {
-           self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logOut))
+           self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("logOutButton.text", comment: "Text for logout button."), style: .plain, target: self, action: #selector(logOut))
         }
     }
     
@@ -170,14 +170,14 @@ extension ProfileViewController: UICollectionViewDataSource,
               }
               headerView.followButton.isHidden = (user?.id == AppSettings.shared.currentUser?.id) || followed == nil
               headerView.usernameLabel.text = user?.fullName
-              headerView.followersLabel.text = "Followers: \(user?.followedByCount ?? 0)"
-              headerView.followingLabel.text = "Following: \(user?.followsCount ?? 0)"
+              headerView.followersLabel.text =  NSLocalizedString("profileScreen.followersText", comment: "Text for followers.") + ": \(user?.followedByCount ?? 0)"
+              headerView.followingLabel.text = NSLocalizedString("profileScreen.followingText", comment: "Text for following.") + ": \(user?.followsCount ?? 0)"
               headerView.profileImageView.kf.setImage(with: URL(string: user?.avatar ?? ""))
               headerView.setUser(user: user)
               headerView.delegate = self
-              headerView.followButton.setTitle(self.isFollowed ? "Unfollow" : "Follow", for: .normal)
+              headerView.followButton.setTitle(self.isFollowed ? NSLocalizedString("unfollowButton.text", comment: "Text for unfollow button.") : NSLocalizedString("followButton.text", comment: "Text for follow button."), for: .normal)
               UIView.performWithoutAnimation({
-                  headerView.followButton.setTitle(self.isFollowed ? "Unfollow" : "Follow", for: .normal)
+                  headerView.followButton.setTitle(self.isFollowed ? NSLocalizedString("unfollowButton.text", comment: "Text for unfollow button.") : NSLocalizedString("followButton.text", comment: "Text for follow button."), for: .normal)
                   headerView.followButton.layoutIfNeeded()
               })
               
@@ -205,7 +205,7 @@ extension ProfileViewController: ProfileHeaderViewDelegate {
                 DispatchQueue.main.async {
                     self.hideActivityIndicator()
                     usersController.users = followers
-                    usersController.title = "Followers"
+                    usersController.title = NSLocalizedString("followersScreen.title", comment: "Title for followers screen.")
                         self.navigationController?.pushViewController(usersController, animated: true)
                 }
             }
@@ -227,7 +227,7 @@ extension ProfileViewController: ProfileHeaderViewDelegate {
                 DispatchQueue.main.async {
                    self.hideActivityIndicator()
                    usersController.users = following
-                   usersController.title = "Following"
+                   usersController.title = NSLocalizedString("followingScreen.title", comment: "Title for following screen.")
                        self.navigationController?.pushViewController(usersController, animated: true)
                 }
             }

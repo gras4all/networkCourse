@@ -39,7 +39,7 @@ final class SelectPhotoViewController: BaseViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationItem.title = "New post"
+        self.navigationItem.title = NSLocalizedString("newPostScreen.title", comment: "Title for new post screen.")
     }
 
 }

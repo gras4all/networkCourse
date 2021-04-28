@@ -42,7 +42,7 @@ final class FeedViewController: BaseViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationItem.title = "Feed"
+        self.navigationItem.title = NSLocalizedString("feedScreen.title", comment: "Title for feed screen.")
     }
     
     private func setupInitialValues() {
@@ -158,7 +158,7 @@ extension FeedViewController: FeedCellDelegate {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let usersController = storyboard.instantiateViewController(withIdentifier: String(describing: UsersViewController.self)) as! UsersViewController
                 usersController.users = users
-                usersController.title = "Likes"
+                usersController.title = NSLocalizedString("likesScreen.title", comment: "Title for likes screen.")
                 _self.navigationController?.pushViewController(usersController, animated: true)
             }
         },

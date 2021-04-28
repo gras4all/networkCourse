@@ -1,0 +1,19 @@
+"feedScreen.title" = "Лента";
+"tabFeed.title" = "Лента";
+"tabNew.title" = "Новый";
+"tabProfile.title" = "Профиль";
+"likesLabel.text" = "Лайки";
+"likesScreen.title" = "Лайки";
+"newPostScreen.title" = "Новый пост";
+"nextButton.text" = "Далее";
+"filtersScreen.title" = "Фильтры";
+"logOutButton.text" = "Выход";
+"profileScreen.followersText" = "Подписчики";
+"profileScreen.followingText" = "Подписки";
+"followersScreen.title" = "Подписчики";
+"followingScreen.title" = "Подписки";
+"followButton.text" = "Подписаться";
+"unfollowButton.text" = "Отписаться";
+"shareButton.text" = "Поделиться";
+"addDescriptionLabel.text" = "Добавить описание";
+

@@ -13,6 +13,8 @@ final class AddDescriptionViewController: BaseViewController {
     
     @IBOutlet weak var filteredImageView: UIImageView!
     @IBOutlet weak var descriptionField: UITextField!
+    @IBOutlet weak var addDescriptionLabel: UILabel!
+    
     
     var filteredImage: UIImage?
     
@@ -25,14 +27,16 @@ final class AddDescriptionViewController: BaseViewController {
         bindImage()
     }
        
-    private func setupViews() {}
+    private func setupViews() {
+        addDescriptionLabel.text = NSLocalizedString("addDescriptionLabel.text", comment: "Text for post description label.")
+    }
     
     private func bindImage() {
         filteredImageView.image = filteredImage
     }
        
     private func setupNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(share))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("shareButton.text", comment: "Text for share button."), style: .plain, target: self, action: #selector(share))
     }
     
     // MARK: UI Actions

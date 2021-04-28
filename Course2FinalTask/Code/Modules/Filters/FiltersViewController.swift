@@ -55,8 +55,8 @@ final class FiltersViewController: BaseViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationItem.title = "Filters"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(goNext))
+        self.navigationItem.title = NSLocalizedString("filtersScreen.title", comment: "Title for filters screen.")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("nextButton.text", comment: "Text for next button."), style: .plain, target: self, action: #selector(goNext))
     }
     
     private func bindImage() {

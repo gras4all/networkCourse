@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +20,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="24P-yc-4rc">
                                 <rect key="frame" x="0.0" y="762" width="414" height="84"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="84" id="0nr-le-MjT"/>
                                 </constraints>
@@ -44,6 +45,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="668"/>
                             </imageView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="yVx-uq-u5b"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="LfO-Df-1Sg" firstAttribute="top" secondItem="yVx-uq-u5b" secondAttribute="top" id="4i4-tG-SEL"/>
@@ -54,7 +56,6 @@
                             <constraint firstItem="yVx-uq-u5b" firstAttribute="trailing" secondItem="24P-yc-4rc" secondAttribute="trailing" id="e8E-rG-OqT"/>
                             <constraint firstItem="yVx-uq-u5b" firstAttribute="trailing" secondItem="LfO-Df-1Sg" secondAttribute="trailing" id="zQJ-7Y-Ost"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="yVx-uq-u5b"/>
                     </view>
                     <connections>
                         <outlet property="filtersCollectionView" destination="24P-yc-4rc" id="WP3-zz-cIv"/>
@@ -92,7 +93,8 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="G8H-fj-Ts8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="W8J-nE-2h1" firstAttribute="leading" secondItem="G8H-fj-Ts8" secondAttribute="leading" constant="16" id="3dC-Oi-r5r"/>
                             <constraint firstItem="CWu-bm-3v4" firstAttribute="top" secondItem="S0V-DN-XoF" secondAttribute="bottom" constant="8" id="D2o-D4-GYO"/>
@@ -103,9 +105,9 @@
                             <constraint firstItem="G8H-fj-Ts8" firstAttribute="trailing" secondItem="CWu-bm-3v4" secondAttribute="trailing" constant="16" id="snu-4o-1Y9"/>
                             <constraint firstItem="G8H-fj-Ts8" firstAttribute="trailing" secondItem="S0V-DN-XoF" secondAttribute="trailing" constant="16" id="uuC-fu-0He"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="G8H-fj-Ts8"/>
                     </view>
                     <connections>
+                        <outlet property="addDescriptionLabel" destination="S0V-DN-XoF" id="agg-RS-jI9"/>
                         <outlet property="descriptionField" destination="CWu-bm-3v4" id="LU4-SE-E1z"/>
                         <outlet property="filteredImageView" destination="W8J-nE-2h1" id="WfF-0j-aRf"/>
                     </connections>
@@ -115,4 +117,9 @@
             <point key="canvasLocation" x="903" y="65"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
