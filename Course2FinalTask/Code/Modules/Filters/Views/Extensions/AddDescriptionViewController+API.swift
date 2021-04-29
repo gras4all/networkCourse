@@ -1,51 +1,18 @@
 //
-//  AddDescriptionViewController.swift
+//  AddDescriptionViewController+API.swift
 //  Course2FinalTask
 //
-//  Created by Андрей Груненков on 08.09.2020.
-//  Copyright © 2020 e-Legion. All rights reserved.
+//  Created by Андрей Груненков on 30.04.2021.
+//  Copyright © 2021 e-Legion. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-final class AddDescriptionViewController: BaseViewController {
-    
-    @IBOutlet weak var filteredImageView: UIImageView!
-    @IBOutlet weak var descriptionField: UITextField!
-    
-    var filteredImage: UIImage?
-    
-    // MARK: life cycle
-       
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupViews()
-        setupNavigationBar()
-        bindImage()
-    }
-       
-    private func setupViews() {}
-    
-    private func bindImage() {
-        filteredImageView.image = filteredImage
-    }
-       
-    private func setupNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(share))
-    }
-    
-    // MARK: UI Actions
-    @objc func share() {
-        postimage()
-    }
-    
-}
-
 // MARK: API methods
-private extension AddDescriptionViewController {
+extension AddDescriptionViewController {
     
-    private func postimage() {
+    func postimage() {
         if let image = filteredImage {
             self.showActivityIndicator()
             let strImage = Base64Converter.convertImageToBase64String(image: image)
@@ -75,3 +42,4 @@ private extension AddDescriptionViewController {
     }
     
 }
+

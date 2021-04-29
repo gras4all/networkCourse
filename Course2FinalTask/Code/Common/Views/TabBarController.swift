@@ -13,6 +13,20 @@ final class TabBarController: UITabBarController {
         return false
     }
     
+    override func viewDidLoad() {
+        setupViews()
+    }
+    
+}
+
+private extension TabBarController {
+    
+    func setupViews() {
+        viewControllers?[0].tabBarItem.title = NSLocalizedString("tabFeed.title", comment: "Text for feed tab.")
+        viewControllers?[1].tabBarItem.title = NSLocalizedString("tabNew.title", comment: "Text for new post tab.")
+        viewControllers?[2].tabBarItem.title = NSLocalizedString("tabProfile.title", comment: "Text for profile tab.")
+    }
+    
 }
 
 

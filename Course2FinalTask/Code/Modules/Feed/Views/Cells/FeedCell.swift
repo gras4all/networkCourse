@@ -72,7 +72,7 @@ final class FeedCell: UITableViewCell {
             dateLabel.isHidden = true
         }
         postImage.kf.setImage(with: URL(string: post.image))
-        likesLabel.text = "Likes: \(post.likedByCount)"
+        likesLabel.text = NSLocalizedString("likesLabel.text", comment: "Text for likes label.") + ": \(post.likedByCount)"
         descriptionLabel.text = post.description
         if post.currentUserLikesThisPost {
             likeButton.tintColor = UIView().tintColor!
