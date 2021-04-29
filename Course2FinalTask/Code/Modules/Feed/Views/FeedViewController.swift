@@ -27,31 +27,13 @@ final class FeedViewController: BaseViewController {
         super.viewDidLoad()
         setupViews()
         setupInitialValues()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavigationBar()
     }
     
-    // MARK: setup
-    
-    private func setupViews() {
-        self.feedTable.delegate = self
-        self.feedTable.dataSource = self
-    }
-    
-    private func setupNavigationBar() {
-        self.navigationItem.title = NSLocalizedString("feedScreen.title", comment: "Title for feed screen.")
-    }
-    
-    private func setupInitialValues() {
-        self.hideActivityIndicator()
-        self.showActivityIndicator()
-        getFeeds()
-    }
-    
-    private func getFeeds() {
+    func updateFeed() {
         if !NetworkManager.shared.isOffline {
             sendFeedRequest()
         } else {
@@ -62,155 +44,25 @@ final class FeedViewController: BaseViewController {
         }
     }
     
-    private func sendFeedRequest() {
-        NetworkManager.shared.feedRequest(success: { [weak self] posts in
-            guard let _self = self else { return }
-            _self.posts = posts
-            CoreDataManager.shared.savePostsToStorage(posts: posts)
-        },
-        errorHandler: { [weak self] error in
-            guard let _self = self else { return }
-            NavigationManager.shared.presentErrorAlert(statusCode: error, vc: _self)
-        })
-    }
-    
 }
 
-// MARK: UITableViewDelegate, UITableViewDataSource
-
-extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
-     
-     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
-     }
-     
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let cell = feedTable.dequeueReusableCell(withIdentifier: String(describing: FeedCell.self)) as! FeedCell
-         cell.setPost(post: posts[indexPath.row])
-         cell.delegate = self
-         return cell
-     }
-
-}
-
-// MARK: FeedCellDelegate
-
-extension FeedViewController: FeedCellDelegate {
-    
-    func didLikeTap(postId: String) {
-        guard !NetworkManager.shared.isOffline else {
-            NavigationManager.shared.presentOfflineMessage(vc: self)
-            return
-        }
-        guard let currentUserId = AppSettings.shared.currentUser?.id else { return }
-        NetworkManager.shared.getUsersLikedThisPost(postId: postId, success: { [weak self] usersLiked in
-            guard let _self = self else { return }
-            let userIds = usersLiked.map { $0.id }
-            if userIds.contains(currentUserId) {
-                _self.unlikePost(postId: postId)
-            } else {
-                _self.likePost(postId: postId)
-            }
-        },
-        errorHandler: { [weak self] error in
-            guard let _self = self else { return }
-            NavigationManager.shared.presentErrorAlert(statusCode: error, vc: _self)
-        })
-    }
-    
-    func didPostImageTap(postId: String) {
-        guard !NetworkManager.shared.isOffline else {
-            NavigationManager.shared.presentOfflineMessage(vc: self)
-            return
-        }
-        self.likePost(postId: postId)
-    }
-    
-    func didShowProfile(authorId: String) {
-        guard !NetworkManager.shared.isOffline else {
-            NavigationManager.shared.presentOfflineMessage(vc: self)
-            return
-        }
-        self.showActivityIndicator()
-        NetworkManager.shared.getUser(userId: authorId, success: { [weak self] author in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.hideActivityIndicator()
-                let profileViewController = NavigationManager.shared.getProfileViewController()
-                profileViewController.user = author
-                self.navigationController?.pushViewController(profileViewController, animated: true)
-            }
-        }, errorHandler: { error in
-            
-        })
-    }
-    
-    func didLikesTap(postId: String) {
-        guard !NetworkManager.shared.isOffline else {
-            NavigationManager.shared.presentOfflineMessage(vc: self)
-            return
-        }
-        self.showActivityIndicator()
-        NetworkManager.shared.getUsersLikedThisPost(postId: postId, success: { [weak self] users in
-            guard let _self = self else { return }
-            DispatchQueue.main.async {
-                _self.hideActivityIndicator()
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let usersController = storyboard.instantiateViewController(withIdentifier: String(describing: UsersViewController.self)) as! UsersViewController
-                usersController.users = users
-                usersController.title = NSLocalizedString("likesScreen.title", comment: "Title for likes screen.")
-                _self.navigationController?.pushViewController(usersController, animated: true)
-            }
-        },
-        errorHandler: { [weak self] error in
-            guard let _self = self else { return }
-            _self.hideActivityIndicator()
-        })
-    }
-}
-
-
-// MARK: API methods
 private extension FeedViewController {
     
-    func updateFeed() {
-        getFeeds()
+    // MARK: setup
+    
+    func setupViews() {
+        self.feedTable.delegate = self
+        self.feedTable.dataSource = self
     }
     
-    func unlikePost(postId: String) {
-        NetworkManager.shared.unlikeRequest(postId: postId, success: { [weak self] users in
-            guard let _self = self else { return }
-            DispatchQueue.main.async {
-                _self.updateFeed()
-            }
-        },
-        errorHandler: { [weak self] error in
-            guard let _self = self else { return }
-            DispatchQueue.main.async {
-                _self.hideActivityIndicator(completion: { [weak self] in
-                 guard let _self = self else { return }
-                 NavigationManager.shared.presentErrorAlert(statusCode: error, vc: _self)
-                })
-            }
-        })
+    func setupNavigationBar() {
+        self.navigationItem.title = NSLocalizedString("feedScreen.title", comment: "Title for feed screen.")
     }
     
-    func likePost(postId: String) {
-        NetworkManager.shared.likeRequest(postId: postId, success: { [weak self] users in
-            guard let _self = self else { return }
-            DispatchQueue.main.async {
-                _self.updateFeed()
-            }
-        },
-        errorHandler: { [weak self] error in
-            guard let _self = self else { return }
-            DispatchQueue.main.async {
-                _self.hideActivityIndicator(completion: { [weak self] in
-                 guard let _self = self else { return }
-                 NavigationManager.shared.presentErrorAlert(statusCode: error, vc: _self)
-                 })
-            }
-        })
+    func setupInitialValues() {
+        self.hideActivityIndicator()
+        self.showActivityIndicator()
+        updateFeed()
     }
     
 }
